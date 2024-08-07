@@ -736,10 +736,11 @@ COMMON.promiseI18n.then(() => {
 					.then(jsonData => {
 						let presets = {};
 						for (let i = 0; i < jsonData.length; i++) {
+							console.log(i);
 							Object.assign(presets, jsonData[i]);
 						}
 						console.log(presets);
-						//UI_FLEETEDITOR.equipmentPresetListUpdate(presets)
+						UI_FLEETEDITOR.equipmentPresetListUpdate(presets)
 
 						//UI_FLEETEDITOR.addShipsIconToDiv('i2hv5', getCurrentPreset());
 
@@ -775,6 +776,25 @@ COMMON.promiseI18n.then(() => {
 				}))
 
 				return isDone[0];
+
+			},
+			equipmentPresetListUpdate: function (equipmentPresets) {
+
+				//add all rows in equipmentPreset to presetList, which presetList is a <select>
+				for (let i = 0; i < Object.keys(equipmentPresets).length; i++) {
+					let option = document.createElement("option");
+					option.text = Object.keys(equipmentPresets)[i]
+					option.value = JSON.stringify(equipmentPresets[option.text])
+					document.getElementById('presetList').add(option);
+				}
+
+				UI_FLEETEDITOR.onchangePreset
+
+				return;
+			},
+			onChangePreset: function () {
+
+				CONVERT.setKC3File(document.getElementById('presetList').options[document.getElementById('presetList').selectedIndex].value);
 
 			},
 			onclickLoadKC3: function () {
