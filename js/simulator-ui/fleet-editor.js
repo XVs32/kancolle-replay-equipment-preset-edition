@@ -707,9 +707,6 @@ COMMON.promiseI18n.then(() => {
 			},
 			onchangeFileKC3: function (e) {
 
-
-				const files = this.files;
-
 				//This javascrupt uses call back method...
 				//This is gonna be messy to debug...
 				//Anyway, the basic logic will be a call flow here, 
@@ -717,19 +714,19 @@ COMMON.promiseI18n.then(() => {
 				//but call the next "read" in the callback function of the previous "read"...
 
 				//Am going to start with ship data
-				//UI_FLEETEDITOR.readKc3(files)
+				UI_FLEETEDITOR.readKc3(e.target.files)
 
-				if (!e.target.files.length) return;
+				/*if (!e.target.files.length) return;
 				let reader = new FileReader();
 				reader.readAsText(e.target.files[0]);
-				reader.addEventListener('loadend', () => CONVERT.setKC3File(reader));
+				reader.addEventListener('loadend', () => CONVERT.setKC3File(reader));*/
 			},
-			readkc3: function (fileObj) {
+			readKc3: function (fileObj) {
 
 				let isDone = [];
 				if (fileObj.length > 0) {
 					for (let i = 0; i < fileObj.length; i++) {
-						if (!fileObj[i].name.endsWith(".kc3")) {
+						if (fileObj[i].name.endsWith(".kc3")) {
 							isDone.push(UI_FLEETEDITOR.readJsonFile(fileObj[i]))
 						}
 					}
@@ -741,6 +738,7 @@ COMMON.promiseI18n.then(() => {
 						for (let i = 0; i < jsonData.length; i++) {
 							Object.assign(presets, jsonData[i]);
 						}
+						console.log(presets);
 						//UI_FLEETEDITOR.equipmentPresetListUpdate(presets)
 
 						//UI_FLEETEDITOR.addShipsIconToDiv('i2hv5', getCurrentPreset());
